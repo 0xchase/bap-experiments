@@ -1,0 +1,13 @@
+### Starting build.
+# Target: simple.ml.depends, tags: { package(bap), package(core_kernel), package(ppx_jane), pp(ppx-jane -dump-ast -inline-test-drop), predicate(custom_ppx), predicate(ppxlib), custom, debug, extension:ml, file:simple.ml, ocaml, ocamldep, quiet, thread, traverse }
+ocamlfind ocamldep -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -modules simple.ml > simple.ml.depends # cached
+# Target: simple.cmo, tags: { package(bap), package(core_kernel), package(ppx_jane), pp(ppx-jane -dump-ast -inline-test-drop), predicate(custom_ppx), predicate(ppxlib), byte, compile, custom, debug, extension:cmo, extension:ml, file:simple.cmo, file:simple.ml, implem, ocaml, quiet, thread, traverse }
+ocamlfind ocamlc -c -g -thread -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -o simple.cmo simple.ml
++ ocamlfind ocamlc -c -g -thread -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -o simple.cmo simple.ml
+File "simple.ml", line 10, characters 3-29:
+10 |    Project.register_pass main
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error: This expression has type unit but an expression was expected of type
+         (unit, Bap_main.error) Stdlib.result
+Command exited with code 2.
+# Compilation unsuccessful.
