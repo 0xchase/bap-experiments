@@ -1,13 +1,18 @@
 ### Starting build.
 # Target: simple.ml.depends, tags: { package(bap), package(core_kernel), package(ppx_jane), pp(ppx-jane -dump-ast -inline-test-drop), predicate(custom_ppx), predicate(ppxlib), custom, debug, extension:ml, file:simple.ml, ocaml, ocamldep, quiet, thread, traverse }
-ocamlfind ocamldep -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -modules simple.ml > simple.ml.depends # cached
+ocamlfind ocamldep -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -modules simple.ml > simple.ml.depends
 # Target: simple.cmo, tags: { package(bap), package(core_kernel), package(ppx_jane), pp(ppx-jane -dump-ast -inline-test-drop), predicate(custom_ppx), predicate(ppxlib), byte, compile, custom, debug, extension:cmo, extension:ml, file:simple.cmo, file:simple.ml, implem, ocaml, quiet, thread, traverse }
 ocamlfind ocamlc -c -g -thread -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -o simple.cmo simple.ml
-+ ocamlfind ocamlc -c -g -thread -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -o simple.cmo simple.ml
-File "simple.ml", line 10, characters 3-29:
-10 |    Project.register_pass main
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Error: This expression has type unit but an expression was expected of type
-         (unit, Bap_main.error) Stdlib.result
-Command exited with code 2.
-# Compilation unsuccessful.
+# Target: simple.cmx, tags: { package(bap), package(core_kernel), package(ppx_jane), pp(ppx-jane -dump-ast -inline-test-drop), predicate(custom_ppx), predicate(ppxlib), compile, custom, debug, extension:cmx, extension:ml, file:simple.cmx, file:simple.ml, implem, native, ocaml, quiet, thread, traverse }
+ocamlfind ocamlopt -c -g -thread -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib -o simple.cmx simple.ml
+# Target: simple.cmxa, tags: { package(bap), package(core_kernel), package(ppx_jane), pp(ppx-jane -dump-ast -inline-test-drop), predicate(custom_ppx), predicate(ppxlib), custom, debug, dont_link_with, extension:cmxa, file:simple.cmxa, library, link, native, ocaml, quiet, thread, traverse }
+ocamlfind ocamlopt -a -thread -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib simple.cmx -o simple.cmxa
+# Target: simple.cmxs, tags: {  }
+ocamlfind ocamlopt -shared -linkall -ccopt -L -ccopt . simple.cmxa -o simple.cmxs
+# Target: simple.cma, tags: { package(bap), package(core_kernel), package(ppx_jane), pp(ppx-jane -dump-ast -inline-test-drop), predicate(custom_ppx), predicate(ppxlib), byte, custom, debug, dont_link_with, extension:cma, file:simple.cma, library, link, ocaml, quiet, thread, traverse }
+ocamlfind ocamlc -a -custom -thread -package ppx_jane -package core_kernel -package bap -pp 'ppx-jane -dump-ast -inline-test-drop' -predicates custom_ppx -predicates ppxlib simple.cmo -o simple.cma
+# Target: simple.plugin, tags: { bundle, library, plugin }
+bapbundle pack -name simple -main simple.cmxs -main simple.cma -provides simple simple.plugin
+# Target: ln -sf /home/chase/github/bap-experiments/plugins/basic/_build/simple.plugin .., tags: {  }
+ln -sf /home/chase/github/bap-experiments/plugins/basic/_build/simple.plugin ..
+# Compilation successful.

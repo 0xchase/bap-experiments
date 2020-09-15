@@ -1,0 +1,3 @@
+clear
+bapbuild simple.plugin && bapbundle install simple.plugin
+bap basic --pass=simple
